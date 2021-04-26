@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/HomeWidget.dart';
+import 'package:plantmanager/core/app_widget.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'PlantManager',
-
-    // routes
-    initialRoute: '/home',
-    routes: {
-      '/home': (context) => Home(),
-    },
-  ));
+  runApp(AppWidget());
 }
