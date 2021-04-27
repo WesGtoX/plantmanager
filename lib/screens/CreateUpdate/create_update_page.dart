@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:plantmanager/core/components/number_picker.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:plantmanager/screens/CreateUpdate/widgets/number_picker.dart';
 import 'package:plantmanager/core/core.dart';
 
 class CreateOrEditWidget extends StatefulWidget {
@@ -10,12 +12,10 @@ class CreateOrEditWidget extends StatefulWidget {
 }
 
 class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
-  ///Parameters to create an plant ou view details of an existing
-  final String txtImageUrl =
-      'https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/3.svg';
+  // Parameters to create an plant ou view details of an existing
+  final String txtImageUrl = 'https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/5.svg';
   String txtName = 'Peperomia';
-  String txtCareObservations =
-      'Não pode pegar sol e deve ficar em temperatura ambiente, dentro de casa';
+  String txtCareObservations = 'Não pode pegar sol e deve ficar em temperatura ambiente, dentro de casa.';
   String txtReminderAlarm = 'A rega deve ser feita com 400ml a cada dois dias';
   String txtAlarm = "";
   String saveButtonText = "Cadastrar planta";
@@ -43,20 +43,20 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 100,
-                        height: 100,
-                        child:
-                            Image.network('https://picsum.photos/250?image=9'),
+                        // width: 100,
+                        // height: 100,
+                        margin: EdgeInsets.only(top: 50),
+                        child: SvgPicture.network(txtImageUrl, height: 176),
                       ),
                     ],
                   ),
                   Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 30),
+                        padding: EdgeInsets.symmetric(vertical: 32),
                         child: Text(
                           txtName,
-                          style: AppTextStyles.headingSmall,
+                          style: AppTextStyles.titleSemiBold,
                         ),
                       ),
                     ],
@@ -69,10 +69,7 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                           vertical: 8,
                           horizontal: 60,
                         ),
-                        child: Text(
-                          txtCareObservations,
-                          style: AppTextStyles.textLarge,
-                        ),
+                        child: Text(txtCareObservations, style: AppTextStyles.text, textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -96,15 +93,12 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.asset('images/waterdrop.png'),
+                          child: Image.asset('assets/images/waterdrop.png'),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           width: 250,
-                          child: Text(
-                            txtReminderAlarm,
-                            style: AppTextStyles.textRetangle,
-                          ),
+                          child: Text(txtReminderAlarm,style: AppTextStyles.textRetangle),
                         ),
                       ],
                     ),
@@ -119,19 +113,12 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                   margin: EdgeInsets.only(top: 15),
                   child: Column(
                     children: [
-                      Text(
-                        "Ecolha o melhor horário para ser lembrado:",
-                        style: AppTextStyles.complement,
-                      ),
+                      Text("Ecolha o melhor horário para ser lembrado:", style: AppTextStyles.smallText),
                       Container(
                         margin: EdgeInsets.only(top: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            hora,
-                            min,
-                            sec,
-                          ],
+                          children: [hora, min, sec],
                         ),
                       ),
                     ],
@@ -147,14 +134,16 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                   margin: EdgeInsets.only(bottom: 39),
                   decoration: BoxDecoration(
                     color: AppColors.greenColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16),
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
                   child: TextButton(
                     child: Text(
                       saveButtonText,
-                      style: AppTextStyles.textLargeLight,
+                      style: GoogleFonts.roboto(
+                        color: AppColors.shapeColor, 
+                        fontSize: 17, 
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                     onPressed: () {
                       // Navigator.pop(context);
