@@ -31,7 +31,7 @@ class _ListPlantsState extends State<ListPlants> {
           about:
               "Adapta-se tanto ao sol e sombra, mas prefere ficar num cantinho fresco, sem sol direto. ",
           environments: ["bedroom"],
-          frequency: DateTime.now(),
+          frequency: "07:30",
           id: 3,
           name: "Peperomia",
           photo:
