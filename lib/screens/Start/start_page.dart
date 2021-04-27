@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/Login/login_page.dart';
 
 class Start extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _StartState extends State<Start> {
                 color: AppColors.shapeColor,
               ),
               onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
               },
             ),
           ],

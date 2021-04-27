@@ -1,7 +1,6 @@
-// import 'package:plantmanager/screens/start_page.dart';
-import 'package:plantmanager/screens/Home/home_page.dart';
-import 'package:plantmanager/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/Start/start_page.dart';
 
 class SplashPage extends StatelessWidget {
 
@@ -9,8 +8,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2)).then((value) => {
       Navigator.pushReplacement(context, MaterialPageRoute(
-        // builder: (context) => Start()
-        builder: (context) => Home()
+        builder: (context) => Start()
       ))
     });
     
