@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Home/home_controller.dart';
+import 'package:plantmanager/screens/Home/home_page.dart';
 import 'package:plantmanager/screens/Home/widgets/app_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_list_view_widget.dart';
 import 'package:plantmanager/shared/models/plant_model.dart';
@@ -143,10 +144,12 @@ class _ListPlantsState extends State<ListPlants> {
                         ),
                         onPressed: () {
                           setState(() {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Planta adicionada com sucesso.'),
-                              duration: Duration(seconds: 2),
-                            ));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(),
+                              ),
+                            );
                           });
                         },
                       ),
