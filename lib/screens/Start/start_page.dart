@@ -15,7 +15,6 @@ class _StartState extends State<Start> {
       backgroundColor: AppColors.backgroundColor,
       body: Container(
         padding: EdgeInsets.all(60),
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
