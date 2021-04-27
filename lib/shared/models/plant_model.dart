@@ -9,17 +9,16 @@ class PlantModel {
   final String waterTips;
   final String photo;
   final List environments;
-  // final FrequencyModel frequency;
+  final String frequency;
 
-  PlantModel({
-    this.id,
-    this.name,
-    this.about,
-    this.waterTips,
-    this.photo,
-    this.environments,
-    // this.frequency
-  });
+  PlantModel(
+      {this.id,
+      this.name,
+      this.about,
+      this.waterTips,
+      this.photo,
+      this.environments,
+      this.frequency});
 
   Map<String, dynamic> toMap() {
     return {
@@ -29,7 +28,7 @@ class PlantModel {
       'waterTips': waterTips,
       'photo': photo,
       'environments': environments,
-      // 'frequency': frequency
+      'frequency': frequency
     };
   }
 
@@ -41,7 +40,7 @@ class PlantModel {
       waterTips: map['waterTips'],
       photo: map['photo'],
       environments: map['environments'],
-      // frequency: map['frequency'],
+      frequency: map['frequency'],
     );
   }
 
