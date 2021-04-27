@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-// import 'package:plantmanager/shared/models/plant_frequency_model.dart';
-
 class PlantModel {
   final int id;
   final String name;
@@ -9,7 +7,7 @@ class PlantModel {
   final String waterTips;
   final String photo;
   final List environments;
-  // final FrequencyModel frequency;
+  final String frequency;
 
   PlantModel({
     this.id,
@@ -18,7 +16,7 @@ class PlantModel {
     this.waterTips,
     this.photo,
     this.environments,
-    // this.frequency
+    this.frequency
   });
 
   Map<String, dynamic> toMap() {
@@ -29,7 +27,7 @@ class PlantModel {
       'waterTips': waterTips,
       'photo': photo,
       'environments': environments,
-      // 'frequency': frequency
+      'frequency': frequency
     };
   }
 
@@ -41,7 +39,7 @@ class PlantModel {
       waterTips: map['water_tips'],
       photo: map['photo'],
       environments: map['environments'],
-      // frequency: map['frequency'],
+      frequency: map['frequency'],
     );
   }
 
