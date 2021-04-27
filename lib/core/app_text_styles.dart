@@ -69,7 +69,7 @@ class AppTextStyles {
     fontSize: 17,
     fontWeight: FontWeight.w600,
   );
-  
+
   static final TextStyle textBold = GoogleFonts.roboto(
     color: AppColors.headingColor,
     fontSize: 17,
@@ -93,10 +93,16 @@ class AppTextStyles {
     fontSize: 13,
     fontWeight: FontWeight.w600,
   );
-  
+
   static final TextStyle smallTextBold = GoogleFonts.roboto(
     color: AppColors.headingColor,
     fontSize: 13,
     fontWeight: FontWeight.w700,
+  );
+
+  static final TextStyle textRetangle = GoogleFonts.roboto(
+    color: AppColors.retangleColor,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
   );
 }
