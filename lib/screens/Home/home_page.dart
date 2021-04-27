@@ -7,15 +7,24 @@ import 'package:plantmanager/screens/Home/widgets/plants_environments_widget.dar
 import 'package:plantmanager/screens/Home/widgets/plants_list_widget.dart';
 
 class Home extends StatefulWidget {
-  Home({ Key key }) : super(key: key);
+  final String username;
+  final String name;
+  
+  Home({ Key key, this.username, this.name }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(this.username, this.name);
 }
 
 class _HomeState extends State<Home> {
   
   final controller = HomeController();
+  String username;
+  String name;
+  String photo;
+  
+  _HomeState(this.username, this.name);
+  
   var plantEnvirement = [];
   
   @override
@@ -26,6 +35,14 @@ class _HomeState extends State<Home> {
     controller.stateNotifier.addListener(() { 
       setState(() {});
     });
+
+    if (username == 'quemuel') {
+      name = 'Quemuel Nassor';
+      photo = 'https://avatars.githubusercontent.com/u/41460212';
+    } else if (name != null && name.length != 0) {
+      photo = 'https://i.imgur.com/FfLAjmz.png';
+    }
+    
     plantEnvirement.add('Banheiro');
     plantEnvirement.add('Copa');
     plantEnvirement.add('Cozinha');
@@ -41,8 +58,8 @@ class _HomeState extends State<Home> {
       return Scaffold(
         appBar: AppBarWidget(
           text1: 'Olá,\n', 
-          text2: controller.user.name, 
-          image: controller.user.photo
+          text2: name == null ? controller.user.name : name, 
+          image: photo == null ? controller.user.photo : photo, 
         ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
@@ -84,12 +101,16 @@ class _HomeState extends State<Home> {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     children: controller.data.plants.map(
-                      (e) => PlantsListWidget(label: e.name, imageUri: e.photo)
+                      (e) => PlantsListWidget(
+                        name: e.name, 
+                        imageUri: e.photo,
+                        about: e.about,
+                        waterTips: e.waterTips
+                      )
                     ).toList(),
                   ),
                 ),
               ),
-
             ],
           ),
         ),

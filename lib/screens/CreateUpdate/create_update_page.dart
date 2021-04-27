@@ -1,24 +1,46 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/screens/CreateUpdate/widgets/number_picker.dart';
 import 'package:plantmanager/core/core.dart';
 
 class CreateOrEditWidget extends StatefulWidget {
+  final String imageUri;
+  final String name;
+  final String about;
+  final String waterTips;
+  final String buttonText;
+
+  CreateOrEditWidget({ 
+    Key key, 
+    this.imageUri, 
+    this.name, 
+    this.about, 
+    this.waterTips, 
+    this.buttonText
+  }) : super(key: key);
+
   @override
-  _CreateOrEditWidgetState createState() => _CreateOrEditWidgetState();
+  _CreateOrEditWidgetState createState() => _CreateOrEditWidgetState(
+    this.imageUri, 
+    this.name, 
+    this.about, 
+    this.waterTips, 
+    this.buttonText
+  );
 }
 
 class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
-  // Parameters to create an plant ou view details of an existing
-  final String txtImageUrl = 'https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/5.svg';
-  String txtName = 'Peperomia';
-  String txtCareObservations = 'Não pode pegar sol e deve ficar em temperatura ambiente, dentro de casa.';
-  String txtReminderAlarm = 'A rega deve ser feita com 400ml a cada dois dias';
+
+  String imageUri;
+  String name;
+  String about;
+  String waterTips;
+  String buttonText;
   String txtAlarm = "";
-  String saveButtonText = "Cadastrar planta";
+
+  _CreateOrEditWidgetState(this.imageUri, this.name, this.about, this.waterTips, this.buttonText);
 
   var hora = InputNumberPicker(14, 1, 23);
   var min = InputNumberPicker(30, 1, 59);
@@ -43,10 +65,8 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        // width: 100,
-                        // height: 100,
                         margin: EdgeInsets.only(top: 50),
-                        child: SvgPicture.network(txtImageUrl, height: 176),
+                        child: Image.network(imageUri, height: 176)
                       ),
                     ],
                   ),
@@ -54,10 +74,7 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 32),
-                        child: Text(
-                          txtName,
-                          style: AppTextStyles.titleSemiBold,
-                        ),
+                        child: Text(name, style: AppTextStyles.titleSemiBold),
                       ),
                     ],
                   ),
@@ -69,7 +86,7 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                           vertical: 8,
                           horizontal: 60,
                         ),
-                        child: Text(txtCareObservations, style: AppTextStyles.text, textAlign: TextAlign.center),
+                        child: Text(about, style: AppTextStyles.text, textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -93,12 +110,12 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
-                          child: Image.asset('assets/images/waterdrop.png'),
+                          child: Image.asset(AppImages.waterdrop),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           width: 250,
-                          child: Text(txtReminderAlarm,style: AppTextStyles.textRetangle),
+                          child: Text(waterTips, style: AppTextStyles.textRetangle),
                         ),
                       ],
                     ),
@@ -138,7 +155,7 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                   ),
                   child: TextButton(
                     child: Text(
-                      saveButtonText,
+                      buttonText,
                       style: GoogleFonts.roboto(
                         color: AppColors.shapeColor, 
                         fontSize: 17, 
