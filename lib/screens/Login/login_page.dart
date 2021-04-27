@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Home/home_page.dart';
+import 'package:plantmanager/screens/Register/register_page.dart';
 
 class Login extends StatelessWidget {
 
@@ -13,8 +14,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
         child: _body(context),
       ),
     );
@@ -35,7 +35,7 @@ class Login extends StatelessWidget {
   }
 
   bool _validateAuth(String login, String passwd) {
-    var users = ['wesley.mendes@sou.unaerp.edu.br', 'quemuel.nassow@sou.unaerp.edu.br'];
+    var users = ['wesley', 'quemuel'];
     var userPasswd = ['unaerp@123'];
 
     var validateUser = users.any((el) => el == login);
@@ -55,9 +55,9 @@ class Login extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 96),
-            height: 36, 
-            width: 36, 
-            child: Image.asset("assets/images/emoji_login.png")
+            height: 100, 
+            width: 100, 
+            child: Image.asset(AppImages.logo)
           ),
           
           Padding(
@@ -77,7 +77,12 @@ class Login extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 72),
-            child: materialButton(context),
+            child: materialLoginButton(context),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 10),
+            child: materialRegisterButton(context),
           ),
         ],
       )
@@ -93,7 +98,23 @@ class Login extends StatelessWidget {
     }
 
     if (_validateAuth(login, passwd)) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(username: login)));
+    } else {
+      showDialog(
+        context: context, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Inválido'),
+            content: Text('Este usuário não existe'),
+            actions: [
+              TextButton(
+                child: Text('TENTAR NOVAMENTE'),
+                onPressed: () { Navigator.of(context).pop(); }, 
+              )
+            ],
+          );
+        }
+      );
     }
     return;
   }
@@ -105,7 +126,7 @@ class Login extends StatelessWidget {
       keyboardType: TextInputType.text,
       style: AppTextStyles.text,
       decoration: InputDecoration(
-        labelText: "Digite o seu e-mail",
+        labelText: "Digite o nome do seu usuário",
         labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       ),
@@ -127,7 +148,7 @@ class Login extends StatelessWidget {
     );
   }
 
-  Material materialButton(BuildContext context) {
+  Material materialLoginButton(BuildContext context) {
     return Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(16),
@@ -144,6 +165,29 @@ class Login extends StatelessWidget {
           textAlign: TextAlign.center
         ),
         onPressed: () { _onClickLogin(context); },
+      ),
+    );
+  }
+
+  Material materialRegisterButton(BuildContext context) {
+    return Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(16),
+      color: AppColors.greenLightColor,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Text("Criar uma conta", 
+          style: GoogleFonts.roboto(
+            color: AppColors.greenDarkColor, 
+            fontSize: 17, 
+            fontWeight: FontWeight.w500
+          ), 
+          textAlign: TextAlign.center
+        ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+        },
       ),
     );
   }

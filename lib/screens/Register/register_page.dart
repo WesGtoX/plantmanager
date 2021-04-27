@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/Home/home_page.dart';
+import 'package:plantmanager/screens/Login/login_page.dart';
 
 class Register extends StatefulWidget {
   Register({ Key key }) : super(key: key);
@@ -11,11 +13,12 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   
+  final _tedName = TextEditingController();
   final _tedPasswd = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
-  String name, email, password, confirmPassword;
+  String name, username, email, password, confirmPassword;
   
   @override
   Widget build(BuildContext context) {
@@ -36,9 +39,9 @@ class _RegisterState extends State<Register> {
       children: [
         Container(
           margin: const EdgeInsets.only(top: 96),
-          height: 36, 
-          width: 36, 
-          child: Image.asset("assets/images/emoji_login.png")
+          height: 100, 
+          width: 100, 
+          child: Image.asset(AppImages.logo)
         ),
         
         Padding(
@@ -51,6 +54,11 @@ class _RegisterState extends State<Register> {
           child: textFormFieldName(),
         ),
         
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
+          child: textFormFieldUsername(),
+        ),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
           child: textFormFieldEmail(),
@@ -68,7 +76,12 @@ class _RegisterState extends State<Register> {
         
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 72),
-          child: materialButton(),
+          child: materialRegisterButton(),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 10),
+          child: materialLoginButton(),
         ),
       ],
     );
@@ -82,6 +95,18 @@ class _RegisterState extends State<Register> {
       return "Informe o nome";
     } else if (!regExp.hasMatch(value)) {
       return "O nome deve conter caracteres de a-z ou A-Z";
+    }
+    return null;
+  }
+
+  String _validateUsername(String value) {
+    String patttern = r'(^[a-z0-9]*$)';
+    RegExp regExp = new RegExp(patttern);
+    
+    if (value.length == 0) {
+      return "Informe o nome de usuário";
+    } else if (!regExp.hasMatch(value)) {
+      return "O nome deve conter caracteres de a-z ou 0-9";
     }
     return null;
   }
@@ -117,10 +142,7 @@ class _RegisterState extends State<Register> {
   _sendForm() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print("Nome $name");
-      print("Email $email");
-      print("Password 1 $password");
-      print("Password 2 $confirmPassword");
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(name: _tedName.text)));
     } else {
       // setState(() { _validate = true; });
     }
@@ -130,11 +152,27 @@ class _RegisterState extends State<Register> {
     return TextFormField(
       obscureText: false,
       keyboardType: TextInputType.text,
+      controller: _tedName,
       validator: _validateName,
       onSaved: (String val) { name = val; },
       style: AppTextStyles.text,
       decoration: InputDecoration(
         labelText: "Digite o seu nome",
+        labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
+        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      ),
+    );
+  }
+
+  TextFormField textFormFieldUsername() {
+    return TextFormField(
+      obscureText: false,
+      keyboardType: TextInputType.text,
+      validator: _validateUsername,
+      onSaved: (String val) { name = val; },
+      style: AppTextStyles.text,
+      decoration: InputDecoration(
+        labelText: "Digite o seu nome de usuário",
         labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       ),
@@ -187,7 +225,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Material materialButton() {
+  Material materialRegisterButton() {
     return Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(16),
@@ -204,6 +242,29 @@ class _RegisterState extends State<Register> {
           textAlign: TextAlign.center
         ),
         onPressed: () { _sendForm(); },
+      ),
+    );
+  }
+
+  Material materialLoginButton() {
+    return Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(16),
+      color: AppColors.greenLightColor,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Text("Voltar para o login", 
+          style: GoogleFonts.roboto(
+            color: AppColors.greenDarkColor, 
+            fontSize: 17, 
+            fontWeight: FontWeight.w500
+          ), 
+          textAlign: TextAlign.center
+        ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+        },
       ),
     );
   }
