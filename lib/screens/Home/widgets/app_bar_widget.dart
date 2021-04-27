@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
-import 'package:plantmanager/shared/models/user_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppBarWidget extends PreferredSize {
-  final UserModel user;
+  final String text1;
+  final String text2;
+  final String image;
 
-  AppBarWidget({ @required this.user }) : super(
+  AppBarWidget({@required this.text1, @required this.text2, this.image }) : super(
     preferredSize: Size.fromHeight(150),
     child: Container(
       margin: EdgeInsets.only(top: 60),
@@ -16,9 +17,9 @@ class AppBarWidget extends PreferredSize {
         children: [
           Text.rich(
             TextSpan(
-              text: 'Olá,\n', style: AppTextStyles.titleLight,
+              text: text1, style: AppTextStyles.titleLight,
               children: [
-                TextSpan(text: user.name, style: AppTextStyles.titleBold)
+                TextSpan(text: text2, style: AppTextStyles.titleBold)
               ]
             ),
           ),
@@ -28,7 +29,7 @@ class AppBarWidget extends PreferredSize {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50), 
               image: DecorationImage(
-                image: NetworkImage(user.photo)
+                image: NetworkImage(image)
               ),
             ),
           ),

@@ -39,7 +39,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     if (controller.state == HomeState.sucess) {
       return Scaffold(
-        appBar: AppBarWidget(user: controller.user),
+        appBar: AppBarWidget(
+          text1: 'Olá,\n', 
+          text2: controller.user.name, 
+          image: controller.user.photo
+        ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
