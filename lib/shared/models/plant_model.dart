@@ -38,7 +38,7 @@ class PlantModel {
       id: map['id'],
       name: map['name'],
       about: map['about'],
-      waterTips: map['waterTips'],
+      waterTips: map['water_tips'],
       photo: map['photo'],
       environments: map['environments'],
       // frequency: map['frequency'],

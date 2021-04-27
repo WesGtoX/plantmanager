@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:plantmanager/core/core.dart';
+// import 'package:plantmanager/core/core.dart';
 
 class InputNumberPicker extends StatefulWidget {
   int _currentValue = 1;
