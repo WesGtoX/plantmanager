@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/Plants/list_plants.dart';
 
 class FeedbackWidget extends StatelessWidget {
   String _icon = "images/icons/emoji-hug.png";
@@ -77,7 +78,12 @@ class FeedbackWidget extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
-                      // Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListPlants(),
+                        ),
+                      );
                     },
                   ),
                 ),
