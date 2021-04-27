@@ -5,7 +5,7 @@ import 'package:plantmanager/core/core.dart';
 class PlantsListViewWidget extends StatelessWidget {
   final String imageUri;
   final String label;
-  final DateTime alarm;
+  final String alarm;
   const PlantsListViewWidget({Key key, this.imageUri, this.label, this.alarm})
       : super(key: key);
 
@@ -39,7 +39,7 @@ class PlantsListViewWidget extends StatelessWidget {
                 style: AppTextStyles.smallText,
                 children: [
                   TextSpan(
-                    text: ('${alarm.hour}:${alarm.minute}'),
+                    text: alarm,
                     style: AppTextStyles.smallTextMedium,
                   )
                 ],
