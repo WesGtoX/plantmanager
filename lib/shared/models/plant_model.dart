@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-// import 'package:plantmanager/shared/models/plant_frequency_model.dart';
-
 class PlantModel {
   final int id;
   final String name;
@@ -11,14 +9,15 @@ class PlantModel {
   final List environments;
   final String frequency;
 
-  PlantModel(
-      {this.id,
-      this.name,
-      this.about,
-      this.waterTips,
-      this.photo,
-      this.environments,
-      this.frequency});
+  PlantModel({
+    this.id,
+    this.name,
+    this.about,
+    this.waterTips,
+    this.photo,
+    this.environments,
+    this.frequency
+  });
 
   Map<String, dynamic> toMap() {
     return {

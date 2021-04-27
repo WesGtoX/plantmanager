@@ -7,7 +7,7 @@
 		"water_tips": "Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/1.svg",
 		"environments": ["living_room", "kitchen"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 2,
@@ -16,7 +16,7 @@
 		"water_tips": "Utilize vasos com furos e pedras no fundo para facilitar a drenagem. Regue 1 vez no dia.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/2.svg",
 		"environments": ["living_room", "bedroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 3,
@@ -25,7 +25,7 @@
 		"water_tips": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/3.svg",
 		"environments": ["bedroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 4,
@@ -34,7 +34,7 @@
 		"water_tips": "Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/4.svg",
 		"environments": ["bedroom", "living_room"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 5,
@@ -43,7 +43,7 @@
 		"water_tips": "Regue o solo ao redor. Regue 1 vez no dia.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/5.svg",
 		"environments": ["bedroom", "living_room"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 6,
@@ -52,7 +52,7 @@
 		"water_tips": "Graças à reserva de água dessas verdinhas, é sempre melhor regar pouco. Regue 1 vez na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/6.svg",
 		"environments": ["kitchen", "bedroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 7,
@@ -61,7 +61,7 @@
 		"water_tips": "Regue sempre na terra e não as folhas. Regue 3 vezes na semana",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/7.svg",
 		"environments": ["kitchen", "living_room"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 8,
@@ -70,7 +70,7 @@
 		"water_tips": "Regue moderadamente. Reque 4 vezes na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/8.svg",
 		"environments": ["bathroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 9,
@@ -79,7 +79,7 @@
 		"water_tips": "Nada de molhar as flores e folhas. Regue o solo 2 vezes na semana.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/3.svg",
 		"environments": ["bathroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  },
 	  {
 		"id": 10,
@@ -88,7 +88,7 @@
 		"water_tips": "Mantenha a terra sempre húmida sem encharcar. Regue 1 vez no dia.",
 		"photo": "https://storage.googleapis.com/golden-wind/nextlevelweek/05-plantmanager/2.svg",
 		"environments": ["bathroom"],
-		"frequency":"07:30"
+		"frequency": "07:30"
 	  }
 	]
   }
