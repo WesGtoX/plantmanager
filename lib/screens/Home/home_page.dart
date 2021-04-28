@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/CreateUpdate/create_update_page.dart';
 import 'package:plantmanager/screens/Home/home_controller.dart';
 import 'package:plantmanager/screens/Home/home_state.dart';
 import 'package:plantmanager/screens/Home/widgets/app_bar_widget.dart';
+import 'package:plantmanager/screens/Home/widgets/app_bottom_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_environments_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_list_widget.dart';
 
@@ -71,7 +73,7 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(top: 32, bottom: 24),
                 child: Text.rich(
                   TextSpan(
-                    text: 'Em qual hambiente,\n', style: AppTextStyles.textMedium,
+                    text: 'Em qual ambiente,\n', style: AppTextStyles.textMedium,
                     children: [
                       TextSpan(text: 'você quer colocar sua planta?', style: AppTextStyles.text)
                     ]
@@ -114,6 +116,25 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add), 
+          tooltip: "Nova Planta",
+          backgroundColor: AppColors.greenDarkColor,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
+                name: 'Aningapara',
+                imageUri: 'https://i.imgur.com/jOHlIRa.png',
+                about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
+                waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.',
+                buttonText: 'Cadastrar planta',
+            )));
+          }, 
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: AppBottomBarWidget(
+          fabLocation: FloatingActionButtonLocation.centerDocked,
+          shape: const CircularNotchedRectangle(),
+        ),
       );
     } else {
       return Scaffold(
@@ -123,6 +144,6 @@ class _HomeState extends State<Home> {
           )
         )
       );
-   }
+    }
   }
 }

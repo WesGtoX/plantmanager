@@ -5,4 +5,5 @@ class AppImages {
   static String get splash => "assets/images/icons/icon.png";
   static String get waterdrop => "assets/images/waterdrop.png";
   static String get watering => "assets/images/watering.png";
+  static String get emojiHug => "assets/images/icons/emoji-hug.png";
 }

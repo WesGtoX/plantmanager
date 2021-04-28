@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
-import 'package:plantmanager/screens/Plants/list_plants.dart';
+import 'package:plantmanager/screens/Home/home_list_plants.dart';
 
 class FeedbackWidget extends StatelessWidget {
-  String _icon = "images/icons/emoji-hug.png";
-  String _title = "Tudo certo";
-  String _message =
-      "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com bastante amor.";
-  String _buttonName = "Muito obrigado :D";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +19,7 @@ class FeedbackWidget extends StatelessWidget {
                 Container(
                   width: 150,
                   height: 150,
-                  child: Image.asset(_icon),
+                  child: Image.asset(AppImages.emojiHug),
                 ),
               ],
             ),
@@ -33,25 +27,19 @@ class FeedbackWidget extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 30),
-                  child: Text(
-                    _title,
-                    style: AppTextStyles.titleSemiBold,
-                    textAlign: TextAlign.center,
-                  ),
+                  child: Text("Tudo certo", style: AppTextStyles.titleSemiBold, textAlign: TextAlign.center),
                 ),
               ],
             ),
             Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      _message,
-                      style: AppTextStyles.text,
-                      textAlign: TextAlign.center,
+                      "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com bastante amor.", 
+                      style: AppTextStyles.text, textAlign: TextAlign.center
                     ),
                   ),
                 ),
@@ -70,20 +58,14 @@ class FeedbackWidget extends StatelessWidget {
                     ),
                   ),
                   child: TextButton(
-                    child: Text(
-                      _buttonName,
-                      style: GoogleFonts.roboto(
-                          color: AppColors.shapeColor,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500),
+                    child: Text("Muito obrigado :D", style: GoogleFonts.roboto(
+                        color: AppColors.shapeColor,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListPlants(),
-                        ),
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants()));
                     },
                   ),
                 ),
