@@ -46,7 +46,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
-    - assets/lottie/
     - assets/database/user.json
     - assets/database/plants.json
 

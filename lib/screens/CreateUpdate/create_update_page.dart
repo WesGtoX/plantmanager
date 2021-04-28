@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/screens/CreateUpdate/widgets/number_picker.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/Feedback/feedback_crud_page.dart';
 
 class CreateOrEditWidget extends StatefulWidget {
   final String imageUri;
@@ -12,14 +13,14 @@ class CreateOrEditWidget extends StatefulWidget {
   final String waterTips;
   final String buttonText;
 
-  CreateOrEditWidget({ 
-    Key key, 
-    this.imageUri, 
-    this.name, 
-    this.about, 
-    this.waterTips, 
-    this.buttonText
-  }) : super(key: key);
+  CreateOrEditWidget({
+    Key key,
+      this.imageUri,
+      this.name,
+      this.about,
+      this.waterTips,
+      this.buttonText
+      }) : super(key: key);
 
   @override
   _CreateOrEditWidgetState createState() => _CreateOrEditWidgetState(
@@ -65,9 +66,9 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 50),
-                        child: Image.network(imageUri, height: 176)
-                      ),
+                          margin: EdgeInsets.only(top: 50),
+                          child: Image.network(imageUri, height: 176)
+                        ),
                     ],
                   ),
                   Column(
@@ -157,13 +158,19 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     child: Text(
                       buttonText,
                       style: GoogleFonts.roboto(
-                        color: AppColors.shapeColor, 
-                        fontSize: 17, 
-                        fontWeight: FontWeight.w500
-                      ),
+                          color: AppColors.shapeColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                        ),
                     ),
                     onPressed: () {
-                      // Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FeedbackWidget(),
+                        ),
+                      );
                     },
                   ),
                 ),

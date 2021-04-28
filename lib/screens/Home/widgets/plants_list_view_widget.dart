@@ -3,14 +3,14 @@ import 'package:plantmanager/core/core.dart';
 
 class PlantsListViewWidget extends StatelessWidget {
   
+  final String name;
   final String imageUri;
-  final String label;
   final String alarm;
   
   const PlantsListViewWidget({
     Key key, 
+    this.name, 
     this.imageUri, 
-    this.label, 
     this.alarm
   }) : super(key: key);
 
@@ -33,7 +33,7 @@ class PlantsListViewWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(vertical: 21),
               child: Image.network(imageUri)
             ),
-            Text(label,
+            Text(name,
               style: AppTextStyles.textMedium,
               textAlign: TextAlign.left,
             ),
