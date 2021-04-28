@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Home/home_list_plants.dart';
 import 'package:plantmanager/screens/Home/home_page.dart';
+import 'package:plantmanager/screens/about/about_screen.dart';
 
 class AppBottomBarWidget extends StatelessWidget {
   
@@ -31,6 +32,9 @@ class AppBottomBarWidget extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
             }),
             if (centerLocations.contains(fabLocation)) const Spacer(),
+            IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.people), onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
+            }),
             IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.list), onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants()));
             }),
