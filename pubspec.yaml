@@ -27,6 +27,8 @@ dependencies:
   google_fonts: ^2.0.0
   numberpicker: ^2.1.1
   cloud_firestore: ^1.0.7
+  firebase_core: ^1.1.1
+  firebase_auth: ^1.2.0
 
 dev_dependencies:
   flutter_test:
