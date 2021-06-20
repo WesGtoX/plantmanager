@@ -7,7 +7,7 @@ import 'package:plantmanager/screens/Home/widgets/app_bottom_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_list_view_widget.dart';
 
 class ListPlants extends StatefulWidget {
-  ListPlants({ Key? key }) : super(key: key);
+  ListPlants({Key? key}) : super(key: key);
 
   @override
   _ListPlantsState createState() => _ListPlantsState();
@@ -20,7 +20,7 @@ class _ListPlantsState extends State<ListPlants> {
   @override
   void initState() {
     super.initState();
-    controller.getUser();
+    // controller.getUser();
     controller.getData();
     controller.stateNotifier.addListener(() {
       setState(() {});
@@ -31,7 +31,10 @@ class _ListPlantsState extends State<ListPlants> {
   Widget build(BuildContext context) {
     if (controller.state == HomeState.sucess) {
       return Scaffold(
-        appBar: AppBarWidget(text1: 'Minhas\n', text2: 'Plantinhas', image: controller.user.photo),
+        appBar: AppBarWidget(
+            text1: 'Minhas\n',
+            text2: 'Plantinhas',
+            image: 'https://avatars.githubusercontent.com/u/32619183'), //controller.user.photo),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
           padding: EdgeInsets.only(top: 60),
@@ -63,7 +66,7 @@ class _ListPlantsState extends State<ListPlants> {
                   ),
                 ),
               ),
-              
+
               Column(
                 children: [
                   Container(
@@ -73,7 +76,7 @@ class _ListPlantsState extends State<ListPlants> {
                   ),
                 ],
               ),
-              
+
               Expanded(
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
@@ -82,16 +85,16 @@ class _ListPlantsState extends State<ListPlants> {
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       return PlantsListViewWidget(
-                        name: controller.data.plants[index].name, 
-                        imageUri: controller.data.plants[index].photo,
-                        alarm: controller.data.plants[index].frequency
-                      );
+                          name: controller.data.plants[index].name,
+                          imageUri: controller.data.plants[index].photo,
+                          alarm: controller.data.plants[index].frequency
+                          );
                     },
                     itemCount: controller.data.plants.length,
                   ),
                 ),
               ),
-              
+
               // BottomBarWidget(),
             ],
           ),

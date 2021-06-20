@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class PlantModel {
-  final int id;
+  final String id;
   final String name;
   final String about;
   final String waterTips;
@@ -18,6 +18,18 @@ class PlantModel {
     required this.environments,
     required this.frequency
   });
+
+factory PlantModel.fromDB(Map<String, dynamic> map, String id) {
+    return PlantModel(
+      id: id,
+      name: map['name'],
+      about: map['about'],
+      waterTips: map['water_tips'],
+      photo: map['photo'],
+      environments: map['environments'],
+      frequency: map['frequency'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
