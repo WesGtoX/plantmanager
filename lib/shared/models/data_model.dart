@@ -11,7 +11,7 @@ class DataModel {
   DataModel({
     // this.plantsWaterFrequencies,
     // this.plantsEnvironments,
-    this.plants,
+    required this.plants,
   });
 
   Map<String, dynamic> toMap() {

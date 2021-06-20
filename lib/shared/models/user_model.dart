@@ -7,10 +7,10 @@ class UserModel {
   final String photo;
 
   UserModel({
-    this.name, 
-    this.email,
-    this.password,
-    this.photo,
+    required this.name, 
+    required this.email,
+    required this.password,
+    required this.photo,
   });
 
   Map<String, dynamic> toMap() {

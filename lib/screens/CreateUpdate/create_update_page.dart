@@ -14,13 +14,13 @@ class CreateOrEditWidget extends StatefulWidget {
   final String buttonText;
 
   CreateOrEditWidget({
-    Key key,
-      this.imageUri,
-      this.name,
-      this.about,
-      this.waterTips,
-      this.buttonText
-      }) : super(key: key);
+    Key? key,
+      required this.imageUri,
+      required this.name,
+      required this.about,
+      required this.waterTips,
+      required this.buttonText
+    }) : super(key: key);
 
   @override
   _CreateOrEditWidgetState createState() => _CreateOrEditWidgetState(

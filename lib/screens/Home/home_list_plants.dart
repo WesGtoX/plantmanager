@@ -7,7 +7,7 @@ import 'package:plantmanager/screens/Home/widgets/app_bottom_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_list_view_widget.dart';
 
 class ListPlants extends StatefulWidget {
-  ListPlants({ Key key }) : super(key: key);
+  ListPlants({ Key? key }) : super(key: key);
 
   @override
   _ListPlantsState createState() => _ListPlantsState();

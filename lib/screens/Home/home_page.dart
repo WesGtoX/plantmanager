@@ -9,23 +9,21 @@ import 'package:plantmanager/screens/Home/widgets/plants_environments_widget.dar
 import 'package:plantmanager/screens/Home/widgets/plants_list_widget.dart';
 
 class Home extends StatefulWidget {
-  final String username;
-  final String name;
+  final String userName;
   
-  Home({ Key key, this.username, this.name }) : super(key: key);
+  Home({ Key? key, required this.userName }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(this.username, this.name);
+  _HomeState createState() => _HomeState(this.userName);
 }
 
 class _HomeState extends State<Home> {
   
   final controller = HomeController();
-  String username;
-  String name;
-  String photo;
+  late String userName;
+  late String photo;
   
-  _HomeState(this.username, this.name);
+  _HomeState(this.userName);
   
   var plantEnvirement = [];
   
@@ -38,12 +36,12 @@ class _HomeState extends State<Home> {
       setState(() {});
     });
 
-    if (username == 'quemuel') {
-      name = 'Quemuel Nassor';
-      photo = 'https://avatars.githubusercontent.com/u/41460212';
-    } else if (name != null && name.length != 0) {
-      photo = 'https://i.imgur.com/FfLAjmz.png';
-    }
+    // if (username == 'quemuel') {
+    //   name = 'Quemuel Nassor';
+    //   photo = 'https://avatars.githubusercontent.com/u/41460212';
+    // } else if (name.length != 0) {
+    //   photo = 'https://i.imgur.com/FfLAjmz.png';
+    // }
     
     plantEnvirement.add('Banheiro');
     plantEnvirement.add('Copa');
@@ -60,8 +58,10 @@ class _HomeState extends State<Home> {
       return Scaffold(
         appBar: AppBarWidget(
           text1: 'Olá,\n', 
-          text2: name == null ? controller.user.name : name, 
-          image: photo == null ? controller.user.photo : photo, 
+          // text2: name == null ? controller.user.name : name,
+          text2: 'controller.user.name',
+          // image: photo == null ? controller.user.photo : photo,
+          image: 'controller.user.photo',
         ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(

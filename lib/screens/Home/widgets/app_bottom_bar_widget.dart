@@ -29,7 +29,7 @@ class AppBottomBarWidget extends StatelessWidget {
         child: Row(
           children: [
             IconButton(tooltip: 'Home', icon: const Icon(Icons.menu), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userName: '')));
             }),
             if (centerLocations.contains(fabLocation)) const Spacer(),
             IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.people), onPressed: () {

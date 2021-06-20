@@ -1,13 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Home/home_page.dart';
 import 'package:plantmanager/screens/Register/register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
 
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final _tedLogin = TextEditingController();
   final _tedPasswd = TextEditingController();
+
+  late CollectionReference user;
+  
+  bool isLoading = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -20,32 +31,32 @@ class Login extends StatelessWidget {
     );
   }
 
-  String _validateLogin(String text) {
-    if (text.isEmpty) {
-      return "Informe o login";
-    }
-    return null;
-  }
+  // String _validateLogin(String text) {
+  //   if (text.isEmpty) {
+  //     return "Informe o login";
+  //   }
+  //   return null;
+  // }
 
-  String _validatePassword(String text) {
-    if (text.isEmpty) {
-      return "Informe a senha";
-    }
-    return null;
-  }
+  // String _validatePassword(String text) {
+  //   if (text.isEmpty) {
+  //     return "Informe a senha";
+  //   }
+  //   return null;
+  // }
 
-  bool _validateAuth(String login, String passwd) {
-    var users = ['wesley', 'quemuel'];
-    var userPasswd = ['unaerp@123'];
-
-    var validateUser = users.any((el) => el == login);
-    var validatePasswd = userPasswd.any((el) => el == passwd);
-
-    if (validateUser && validatePasswd) {
-      return true;
-    }
-    return false;
-  }
+  // bool _validateAuth(String login, String passwd) {
+  //   var users = ['wesley', 'quemuel'];
+  //   var userPasswd = ['unaerp@123'];
+  //
+  //   var validateUser = users.any((el) => el == login);
+  //   var validatePasswd = userPasswd.any((el) => el == passwd);
+  //
+  //   if (validateUser && validatePasswd) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   _body(BuildContext context) {
     return Form(
@@ -93,19 +104,42 @@ class Login extends StatelessWidget {
     final login = _tedLogin.text;
     final passwd = _tedPasswd.text;
 
-    if(!_formKey.currentState.validate()) {
+    if(!_formKey.currentState!.validate()) {
       return;
     }
 
-    if (_validateAuth(login, passwd)) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(username: login)));
-    } else {
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: login, password: passwd,
+    ).then((result) {
+      isLoading = false;
+
+      var userUid = result.user!.uid;
+      var userName = '';
+
+      user = FirebaseFirestore.instance.collection('users');
+      user.doc(userUid).get().then((value) {
+        userName = value['name'].toString();
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home(userName: userName))
+      );
+    }).catchError((error) {
+      var message = '';
+
+      if (error == 'user-not-found') {
+        message = 'Usuário não encontrado';
+      } else {
+        message = "Algo deu errado na tentativa de login, tente novamente";
+      }
+
       showDialog(
         context: context, 
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Login Inválido'),
-            content: Text('Este usuário não existe'),
+            content: Text('$message'),
             actions: [
               TextButton(
                 child: Text('TENTAR NOVAMENTE'),
@@ -115,14 +149,16 @@ class Login extends StatelessWidget {
           );
         }
       );
-    }
-    return;
+    });
   }
 
   TextFormField textFormFieldLogin() {
     return TextFormField(
       controller: _tedLogin,
-      validator: _validateLogin,
+      // validator: _validateLogin,
+      validator: (String? text) {
+        return text == null || text.isEmpty ? "Informe o login" : null;
+      },
       keyboardType: TextInputType.text,
       style: AppTextStyles.text,
       decoration: InputDecoration(
@@ -136,7 +172,9 @@ class Login extends StatelessWidget {
   TextFormField textFormFieldPassword() {
     return TextFormField(
       controller: _tedPasswd,
-      validator: _validatePassword,
+      validator: (String? text) {
+        return text == null || text.isEmpty ? "Informe o senha" : null;
+      },
       obscureText: true,
       keyboardType: TextInputType.text,
       style: AppTextStyles.text,

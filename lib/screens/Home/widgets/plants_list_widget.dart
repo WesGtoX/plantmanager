@@ -9,11 +9,11 @@ class PlantsListWidget extends StatelessWidget {
   final String waterTips;
 
   const PlantsListWidget({
-    Key key,
-    this.imageUri, 
-    this.name, 
-    this.about, 
-    this.waterTips,
+    Key? key,
+    required this.imageUri, 
+    required this.name, 
+    required this.about, 
+    required this.waterTips,
   }) : super(key: key);
 
   @override

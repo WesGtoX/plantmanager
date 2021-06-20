@@ -10,8 +10,8 @@ class HomeController{
   set state(HomeState state) => stateNotifier.value = state;
   HomeState get state => stateNotifier.value;
   
-  UserModel user;
-  DataModel data;
+  late final UserModel user;
+  late final DataModel data;
 
   final repository = HomeRepository();
 

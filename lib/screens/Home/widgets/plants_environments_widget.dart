@@ -4,7 +4,7 @@ import 'package:plantmanager/core/core.dart';
 
 class PlantsEnvironmentsWidget extends StatelessWidget {
   final String label;
-  const PlantsEnvironmentsWidget({ Key key, this.label }) : super(key: key);
+  const PlantsEnvironmentsWidget({ Key? key, required this.label }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
