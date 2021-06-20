@@ -7,7 +7,7 @@ class AppBarWidget extends PreferredSize {
   final String text2;
   final String image;
 
-  AppBarWidget({@required this.text1, @required this.text2, this.image }) : super(
+  AppBarWidget({ required this.text1, required this.text2, required this.image }) : super(
     preferredSize: Size.fromHeight(150),
     child: Container(
       margin: EdgeInsets.only(top: 60),

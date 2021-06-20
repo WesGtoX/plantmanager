@@ -5,8 +5,8 @@ class PlantEnvironmentModel {
   final String title;
 
   PlantEnvironmentModel({
-    this.key,
-    this.title,
+    required this.key,
+    required this.title,
   });
 
   Map<String, dynamic> toMap() {

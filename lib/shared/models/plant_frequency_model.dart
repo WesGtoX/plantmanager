@@ -5,8 +5,8 @@ class FrequencyModel {
   final String repeatEvery;
 
   FrequencyModel({
-    this.times,
-    this.repeatEvery,
+    required this.times,
+    required this.repeatEvery,
   });
 
   Map<String, dynamic> toMap() {

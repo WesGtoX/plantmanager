@@ -8,10 +8,10 @@ class PlantsListViewWidget extends StatelessWidget {
   final String alarm;
   
   const PlantsListViewWidget({
-    Key key, 
-    this.name, 
-    this.imageUri, 
-    this.alarm
+    Key? key, 
+    required this.name, 
+    required this.imageUri, 
+    required this.alarm
   }) : super(key: key);
 
   @override

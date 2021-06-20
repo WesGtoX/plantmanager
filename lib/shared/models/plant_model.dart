@@ -10,13 +10,13 @@ class PlantModel {
   final String frequency;
 
   PlantModel({
-    this.id,
-    this.name,
-    this.about,
-    this.waterTips,
-    this.photo,
-    this.environments,
-    this.frequency
+    required this.id,
+    required this.name,
+    required this.about,
+    required this.waterTips,
+    required this.photo,
+    required this.environments,
+    required this.frequency
   });
 
   Map<String, dynamic> toMap() {
