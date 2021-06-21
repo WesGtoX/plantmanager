@@ -1,7 +1,10 @@
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
-import 'package:plantmanager/screens/Home/home_page.dart';
 import 'package:plantmanager/screens/Login/login_page.dart';
 
 class Register extends StatefulWidget {
@@ -14,11 +17,15 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   
   final _tedName = TextEditingController();
+  final _tedEmail = TextEditingController();
   final _tedPasswd = TextEditingController();
+  final _tedCpf = TextEditingController();
+  final _tedPhone = TextEditingController();
+  // final _tedPhoto = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   
-  late String name, username, email, password, confirmPassword;
+  late String name, email, passwd, cpf, phone, photo;
   
   @override
   Widget build(BuildContext context) {
@@ -53,11 +60,6 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
           child: textFormFieldName(),
         ),
-        
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
-          child: textFormFieldUsername(),
-        ),
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
@@ -73,6 +75,16 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
           child: textFormFieldConfirmPassword(),
         ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
+          child: textFormFieldCpf(),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 56, vertical: 20),
+          child: textFormFieldPhone(),
+        ),
         
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 72),
@@ -87,65 +99,78 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  // String _validateName(String value) {
-  //   String patttern = r'(^[a-zA-Z ]*$)';
-  //   RegExp regExp = new RegExp(patttern);
-  // 
-  //   if (value.length == 0) {
-  //     return "Informe o nome";
-  //   } else if (!regExp.hasMatch(value)) {
-  //     return "O nome deve conter caracteres de a-z ou A-Z";
-  //   }
-  //   return null;
-  // }
-  // 
-  // String _validateUsername(String value) {
-  //   String patttern = r'(^[a-z0-9]*$)';
-  //   RegExp regExp = new RegExp(patttern);
-  // 
-  //   if (value == null || value.length == 0) {
-  //     return "Informe o nome de usuário";
-  //   } else if (!regExp.hasMatch(value)) {
-  //     return "O nome deve conter caracteres de a-z ou 0-9";
-  //   }
-  //   return null;
-  // }
-  // 
-  // String _validateEmail(String value) {
-  //   String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  //   RegExp regExp = new RegExp(pattern);
-  // 
-  //   if (value == null || value.length == 0) {
-  //     return "Informe o Email";
-  //   } else if(!regExp.hasMatch(value)){
-  //     return "Email inválido";
-  //   }
-  //   return null;
-  // }
-  // 
-  // String _validatePassword(String value) {
-  //   if (value == null || value.length == 0) {
-  //     return "Informe a Senha";
-  //   }
-  //   return null;
-  // }
-  // 
-  // String _validateConfirmPassword(String value) {
-  //   if (value == null || value.length == 0) {
-  //     return "Informe a Senha";
-  //   } else if (value != _tedPasswd.text) {
-  //     return "As senhas não podem ser diferentes";
-  //   }
-  //   return null;
-  // }
-
   _sendForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userName: _tedName.text)));
-    } else {
-      // setState(() { _validate = true; });
+    name = _tedName.text;
+    email = _tedEmail.text;
+    passwd = _tedPasswd.text;
+    cpf = _tedCpf.text;
+    phone = _tedPhone.text;
+    // photo = _tedPhoto;
+
+    if(!_formKey.currentState!.validate()) {
+      return;
     }
+
+    _formKey.currentState!.save();
+
+    FirebaseAuth fa = FirebaseAuth.instance;
+
+    fa.createUserWithEmailAndPassword(email: email, password: passwd)
+      .then((result) {
+        var db = FirebaseFirestore.instance;
+        
+        db.collection('users').doc(result.user!.uid).set({
+            'name' : name,
+            'email': email,
+            'cpf': cpf,
+            'phone': phone,
+            // 'photo': photo,
+          }
+        ).then((result) {
+          showDialog(
+            context: context, 
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Cadastro Realizado'),
+                content: Text('Usuário criado com sucesso!'),
+                actions: [
+                  TextButton(
+                    child: Text('FAZER LOGIN'),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                    },
+                  )
+                ],
+              );
+            }
+          );
+        });
+    }).catchError((error) {
+      var errorCode = error.code;
+      var message = '';
+
+      if (errorCode == 'email-already-in-use') {
+        message = 'Oops, aconteceu alguma coisa ao tentar cadastrar o usuário';
+      } else {
+        message = error.message;
+      }
+
+      showDialog(
+        context: context, 
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Cadastro Inválido'),
+            content: Text('$message'),
+            actions: [
+              TextButton(
+                child: Text('TENTAR NOVAMENTE'),
+                onPressed: () { Navigator.of(context).pop(); }, 
+              )
+            ],
+          );
+        }
+      );
+    });
   }
 
   TextFormField textFormFieldName() {
@@ -153,7 +178,6 @@ class _RegisterState extends State<Register> {
       obscureText: false,
       keyboardType: TextInputType.text,
       controller: _tedName,
-      // validator: _validateName,
       validator: (String? value) {
         String patttern = r'(^[a-zA-Z ]*$)';
         RegExp regExp = new RegExp(patttern);
@@ -165,36 +189,9 @@ class _RegisterState extends State<Register> {
         }
         return null;
       },
-      // onSaved: (String val) { name = val; },
       style: AppTextStyles.text,
       decoration: InputDecoration(
         labelText: "Digite o seu nome",
-        labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
-        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-      ),
-    );
-  }
-
-  TextFormField textFormFieldUsername() {
-    return TextFormField(
-      obscureText: false,
-      keyboardType: TextInputType.text,
-      // validator: _validateUsername,
-      validator: (String? value) {
-        String patttern = r'(^[a-z0-9]*$)';
-        RegExp regExp = new RegExp(patttern);
-        
-        if (value == null || value.length == 0) {
-          return "Informe o nome de usuário";
-        } else if (!regExp.hasMatch(value)) {
-          return "O nome deve conter caracteres de a-z ou 0-9";
-        }
-        return null;
-      },
-      // onSaved: (String val) { name = val; },
-      style: AppTextStyles.text,
-      decoration: InputDecoration(
-        labelText: "Digite o seu nome de usuário",
         labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       ),
@@ -205,7 +202,7 @@ class _RegisterState extends State<Register> {
     return TextFormField(
       obscureText: false,
       keyboardType: TextInputType.text,
-      // validator: _validateEmail,
+      controller: _tedEmail,
       validator: (String? value) {
         String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
         RegExp regExp = new RegExp(pattern);
@@ -217,7 +214,6 @@ class _RegisterState extends State<Register> {
         }
         return null;
       },
-      // onSaved: (String val) { email = val; },
       style: AppTextStyles.text,
       decoration: InputDecoration(
         labelText: "Digite o seu e-mail", 
@@ -232,14 +228,12 @@ class _RegisterState extends State<Register> {
       obscureText: true,
       keyboardType: TextInputType.text,
       controller: _tedPasswd,
-      // validator: _validatePassword,
       validator: (String? value) {
         if (value == null || value.length == 0) {
           return "Informe a Senha";
         }
         return null;
       },
-      // onSaved: (String? val) { password = val!; },
       style: AppTextStyles.text,
       decoration: InputDecoration(
         labelText: "Digite sua senha", 
@@ -253,7 +247,6 @@ class _RegisterState extends State<Register> {
     return TextFormField(
       obscureText: true,
       keyboardType: TextInputType.text,
-      // validator: _validateConfirmPassword,
       validator: (String? value) {
         if (value == null || value.length == 0) {
           return "Informe a Senha";
@@ -262,12 +255,71 @@ class _RegisterState extends State<Register> {
         }
         return null;
       },
-      // onSaved: (String? val) { confirmPassword = val!; },
       style: AppTextStyles.text,
       decoration: InputDecoration(
         labelText: "Repita sua senha", 
         labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0), 
+      ),
+    );
+  }
+
+    TextFormField textFormFieldCpf() {
+    return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        CpfInputFormatter(),
+      ],
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      maxLength: 14,
+      controller: _tedCpf,
+      validator: (String? value) {
+        String patttern = r'([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2})';
+        RegExp regExp = new RegExp(patttern);
+        
+        if (value == null || value.length == 0) {
+          return "Informe o CPF";
+        } else if (!regExp.hasMatch(value)) {
+          return "O CPF deve ser no formato correto: XXX.XXX.XXX-XX";
+        }
+        return null;
+      },
+      style: AppTextStyles.text,
+      decoration: InputDecoration(
+        labelText: "Digite o número do seu CPF",
+        labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
+        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      ),
+    );
+  }
+
+    TextFormField textFormFieldPhone() {
+    return TextFormField(
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        TelefoneInputFormatter(),
+      ],
+      obscureText: false,
+      keyboardType: TextInputType.phone,
+      maxLength: 15,
+      controller: _tedPhone,
+      validator: (String? value) {
+        String patttern = r'(\([1-9]{2}\) [9]{0,1}[6-9]{1}[0-9]{3}\-[0-9]{4}$)';
+        RegExp regExp = new RegExp(patttern);
+        
+        if (value == null || value.length == 0) {
+          return "Informe o número de telefone";
+        } else if (!regExp.hasMatch(value)) {
+          return "O telefone deve ser no formato correto: (XX) 9XXXX-XXXX";
+        }
+        return null;
+      },
+      style: AppTextStyles.text,
+      decoration: InputDecoration(
+        labelText: "Digite o número do seu telefone",
+        labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
+        contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       ),
     );
   }
