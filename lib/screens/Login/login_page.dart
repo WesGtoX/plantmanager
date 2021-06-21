@@ -31,33 +31,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // String _validateLogin(String text) {
-  //   if (text.isEmpty) {
-  //     return "Informe o login";
-  //   }
-  //   return null;
-  // }
-
-  // String _validatePassword(String text) {
-  //   if (text.isEmpty) {
-  //     return "Informe a senha";
-  //   }
-  //   return null;
-  // }
-
-  // bool _validateAuth(String login, String passwd) {
-  //   var users = ['wesley', 'quemuel'];
-  //   var userPasswd = ['unaerp@123'];
-  //
-  //   var validateUser = users.any((el) => el == login);
-  //   var validatePasswd = userPasswd.any((el) => el == passwd);
-  //
-  //   if (validateUser && validatePasswd) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   _body(BuildContext context) {
     return Form(
       key: _formKey,
@@ -155,14 +128,21 @@ class _LoginState extends State<Login> {
   TextFormField textFormFieldLogin() {
     return TextFormField(
       controller: _tedLogin,
-      // validator: _validateLogin,
-      validator: (String? text) {
-        return text == null || text.isEmpty ? "Informe o login" : null;
+      validator: (String? value) {
+        String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+        RegExp regExp = new RegExp(pattern);
+        
+        if (value == null || value.length == 0) {
+          return "Informe o Email";
+        } else if(!regExp.hasMatch(value)){
+          return "Email inválido";
+        }
+        return null;
       },
       keyboardType: TextInputType.text,
       style: AppTextStyles.text,
       decoration: InputDecoration(
-        labelText: "Digite o nome do seu usuário",
+        labelText: "Digite o seu e-mail",
         labelStyle: GoogleFonts.roboto(color: AppColors.bodyColor),
         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       ),
@@ -172,8 +152,8 @@ class _LoginState extends State<Login> {
   TextFormField textFormFieldPassword() {
     return TextFormField(
       controller: _tedPasswd,
-      validator: (String? text) {
-        return text == null || text.isEmpty ? "Informe o senha" : null;
+      validator: (String? value) {
+        return value == null || value.isEmpty ? "Informe o senha" : null;
       },
       obscureText: true,
       keyboardType: TextInputType.text,
