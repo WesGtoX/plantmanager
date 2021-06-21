@@ -9,21 +9,23 @@ import 'package:plantmanager/screens/Home/widgets/plants_environments_widget.dar
 import 'package:plantmanager/screens/Home/widgets/plants_list_widget.dart';
 
 class Home extends StatefulWidget {
+  final String userId;
   final String userName;
 
-  Home({ Key? key, required this.userName }) : super(key: key);
+  Home({ Key? key, required this.userName, required this.userId }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(this.userName);
+  _HomeState createState() => _HomeState(this.userName, this.userId);
 }
 
 class _HomeState extends State<Home> {
 
   final controller = HomeController();
+  late String userId;
   late String userName;
   late String photo;
 
-  _HomeState(this.userName);
+  _HomeState(this.userName,this.userId);
 
   var plantEnvirement = [];
 
@@ -59,9 +61,9 @@ class _HomeState extends State<Home> {
         appBar: AppBarWidget(
           text1: 'Olá,\n',
           // text2: name == null ? controller.user.name : name,
-          text2: 'controller.user.name',
+          text2: this.userName,
           // image: photo == null ? controller.user.photo : photo,
-          image: 'https://avatars.githubusercontent.com/u/32619183', //'controller.user.photo',
+          image: 'https://cdn2.iconfinder.com/data/icons/user-interface-line-38/24/Untitled-5-19-512.png', //'controller.user.photo',
         ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
@@ -104,6 +106,8 @@ class _HomeState extends State<Home> {
                     mainAxisSpacing: 16,
                     children: controller.data.plants.map(
                           (e) => PlantsListWidget(
+                            userId: this.userId,
+                            userName: this.userName,
                             name: e.name,
                             imageUri: e.photo,
                             about: e.about,
@@ -121,7 +125,11 @@ class _HomeState extends State<Home> {
           tooltip: "Nova Planta",
           backgroundColor: AppColors.greenDarkColor,
           onPressed: () {
+
+            // Chamada para adicionar uma nova planta na coleção de um cliente
             Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
+                          userId: this.userId,
+                          userName: this.userName,
                           name: 'Aningapara',
                           imageUri: 'https://i.imgur.com/jOHlIRa.png',
                           about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
@@ -132,6 +140,8 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AppBottomBarWidget(
+          userId: this.userId,
+          userName: this.userName,
           fabLocation: FloatingActionButtonLocation.centerDocked,
           shape: const CircularNotchedRectangle(),
         ),
