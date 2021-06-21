@@ -3,7 +3,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Home/home_list_plants.dart';
 
-class FeedbackWidget extends StatelessWidget {
+class FeedbackWidget extends StatefulWidget {
+  final String userId;
+  final String userName;
+
+  const FeedbackWidget({Key? key, required this.userId, required this.userName})
+      : super(
+          key: key,
+        );
+
+  @override
+  _FeedbackWidgetState createState() =>
+      _FeedbackWidgetState(this.userId, this.userName);
+}
+
+class _FeedbackWidgetState extends State<FeedbackWidget> {
+  late String userId;
+  late String userName;
+
+  _FeedbackWidgetState(this.userId, this.userName);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +57,7 @@ class FeedbackWidget extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com bastante amor.", 
+                      "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com bastante amor.",
                       style: AppTextStyles.text, textAlign: TextAlign.center
                     ),
                   ),
@@ -59,13 +78,13 @@ class FeedbackWidget extends StatelessWidget {
                   ),
                   child: TextButton(
                     child: Text("Muito obrigado :D", style: GoogleFonts.roboto(
-                        color: AppColors.shapeColor,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500
-                      ),
+                          color: AppColors.shapeColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                        ),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants( userId: this.userId, userName: this.userName)));
                     },
                   ),
                 ),

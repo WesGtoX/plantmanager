@@ -96,7 +96,7 @@ class _LoginState extends State<Login> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home(userName: userName))
+        MaterialPageRoute(builder: (context) => Home(userId: userUid, userName: userName))
       );
     }).catchError((error) {
       var message = '';
