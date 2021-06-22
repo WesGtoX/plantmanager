@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:plantmanager/screens/CreateUpdate/widgets/number_picker.dart';
 import 'package:plantmanager/core/core.dart';
 import 'package:plantmanager/screens/Feedback/feedback_crud_page.dart';
+import 'package:plantmanager/screens/Home/widgets/client_plants_controller.dart';
 import 'package:plantmanager/shared/models/client_plant.dart';
 
 class CreateOrEditWidget extends StatefulWidget {
@@ -16,30 +17,35 @@ class CreateOrEditWidget extends StatefulWidget {
   final String about;
   final String waterTips;
   final String buttonText;
+  late String? plantId = '';
 
-  CreateOrEditWidget(
-      {Key? key,
-      required this.userId,
-      required this.userName,
-      required this.imageUri,
-      required this.name,
-      required this.about,
-      required this.waterTips,
-      required this.buttonText})
-      : super(key: key);
+  CreateOrEditWidget({
+    Key? key,
+    required this.userId,
+    required this.userName,
+    required this.imageUri,
+    required this.name,
+    required this.about,
+    required this.waterTips,
+    required this.buttonText,
+    this.plantId
+  }) : super(key: key);
 
   @override
   _CreateOrEditWidgetState createState() => _CreateOrEditWidgetState(
-      this.userId,
-      this.userName,
-      this.imageUri,
-      this.name,
-      this.about,
-      this.waterTips,
-      this.buttonText);
+    this.userId,
+    this.userName,
+    this.imageUri,
+    this.name,
+    this.about,
+    this.waterTips,
+    this.buttonText,
+    this.plantId
+  );
 }
 
 class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
+  final controller = ClientPlantsController();
   late String userId;
   late String userName;
   late String imageUri;
@@ -48,13 +54,32 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
   late String waterTips;
   late String buttonText;
   late String txtAlarm = "";
+  late String? plantId;
 
-  _CreateOrEditWidgetState(this.userId, this.userName, this.imageUri, this.name, this.about,
-      this.waterTips, this.buttonText);
+  _CreateOrEditWidgetState(
+    this.userId, 
+    this.userName, 
+    this.imageUri, 
+    this.name, 
+    this.about, 
+    this.waterTips, 
+    this.buttonText,
+    this.plantId
+  );
 
-  var hora = InputNumberPicker(DateTime.now().hour, 0, 23);
-  var min = InputNumberPicker(DateTime.now().minute, 0, 59);
-  var sec = InputNumberPicker(DateTime.now().second, 0, 59);
+  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+
+  void _selectTime() async {
+    final TimeOfDay? newTime = await showTimePicker(
+      context: context, 
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+      });
+    }
+  }
 
   var db = FirebaseFirestore.instance;
 
@@ -78,9 +103,9 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                            margin: EdgeInsets.only(top: 50),
-                            child: Image.network(imageUri, height: 176)
-                          ),
+                          margin: EdgeInsets.only(top: 50),
+                          child: Image.network(imageUri, height: 176)
+                        ),
                       ],
                     ),
                     Column(
@@ -143,12 +168,27 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                     margin: EdgeInsets.only(top: 15),
                     child: Column(
                       children: [
-                        Text("Ecolha o melhor horário para ser lembrado:", style: AppTextStyles.smallText),
+                        Text("Escolha o melhor horário para ser lembrado:", style: AppTextStyles.smallText),
                         Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [hora, min, sec],
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          margin: EdgeInsets.symmetric(vertical: 25),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                onPressed: _selectTime,
+                                child: Text('Selecionar Hora'),
+                                style: ButtonStyle(
+                                  // overlayColor: ,
+                                  backgroundColor: MaterialStateProperty.all(AppColors.greenDarkColor),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text('Hora selecionada: ${_time.format(context)}'),
+                            ],
                           ),
                         ),
                       ],
@@ -170,34 +210,35 @@ class _CreateOrEditWidgetState extends State<CreateOrEditWidget> {
                       child: Text(
                         buttonText,
                         style: GoogleFonts.roboto(
-                            color: AppColors.shapeColor,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                          ),
+                          color: AppColors.shapeColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500
+                        ),
                       ),
                       onPressed: () {
-
-                        // Registering data on database
-                        var snapshots = db.collection('clientsPlants').add(
+                        if (this.plantId == null) {
+                          // Registering data on database
+                          db.collection('clientsPlants').add(
                             ClientPlant(
                               about: this.about,
                               imageUri: this.imageUri,
                               name: this.name,
                               userId: this.userId,
                               waterTips: this.waterTips,
-                              txtAlarm: (this.hora.getValue() + ":" +
-                                  this.min.getValue() + ":" +
-                                  this.sec.getValue())
+                              txtAlarm: _time.format(context)
                             ).toMap()
-                        );
+                          );
+                        } else {
+                          controller.update(this.plantId, _time.format(context));
+                        }
 
                         Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FeedbackWidget(userId: this.userId, userName: this.userName,),
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => FeedbackWidget(
+                            userId: this.userId, 
+                            userName: this.userName,
                           ),
-                        );
+                        ));
                       },
                     ),
                   ),

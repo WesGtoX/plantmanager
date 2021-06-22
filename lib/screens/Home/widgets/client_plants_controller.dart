@@ -17,19 +17,24 @@ class ClientPlantsController {
     db.collection('clientsPlants').doc(id).delete();
   }
 
+  void update(String? id, String alarm) {
+    var db = FirebaseFirestore.instance;
+
+    db.collection('clientsPlants').doc(id).update({
+      'txtAlarm': alarm,
+    });
+  }
+
   void getData() async {
     var db = FirebaseFirestore.instance;
 
-    var snapshots = await db
-        .collection('clientsPlants')
-        .where('userId', isEqualTo: this.userId)
-        .get()
-        .then((value) => {
-              this.plants = value.docs
-                  .map((e) => ClientPlant.fromMap(e.data(), e.id))
-                  .toList()
-            })
-        .catchError((error) {
+    await db.collection('clientsPlants')
+      .where('userId', isEqualTo: this.userId)
+      .get().then((value) => {
+        this.plants = value.docs.map((e) => ClientPlant.fromMap(
+          e.data(), e.id
+        )).toList()
+      }).catchError((error) {
       state = HomeState.error;
       print(error);
     });

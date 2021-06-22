@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
+import 'package:plantmanager/screens/CreateUpdate/create_update_page.dart';
 import 'package:plantmanager/screens/Home/home_state.dart';
 import 'package:plantmanager/screens/Home/widgets/app_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/app_bottom_bar_widget.dart';
@@ -12,12 +13,14 @@ class ListPlants extends StatefulWidget {
   final String userId;
   final String userName;
 
-  ListPlants({Key? key, required this.userId, required this.userName})
-      : super(key: key);
+  ListPlants(
+    { Key? key, required this.userId, required this.userName }
+  ) : super(key: key);
 
   @override
-  _ListPlantsState createState() =>
-      _ListPlantsState(this.userId, this.userName);
+  _ListPlantsState createState() => _ListPlantsState(
+    this.userId, this.userName
+  );
 }
 
 class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
@@ -37,12 +40,13 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
     controller.stateNotifier.addListener(() {
       setState(() {});
     });
+
     circularIndicator = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
     )..addListener(() {
-        setState(() {});
-      });
+      setState(() {});
+    });
   }
 
   @override
@@ -56,10 +60,10 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
     if (controller.state == HomeState.sucess) {
       return Scaffold(
         appBar: AppBarWidget(
-            text1: 'Minhas\n',
-            text2: 'Plantinhas',
-            image:
-                'https://cdn2.iconfinder.com/data/icons/user-interface-line-38/24/Untitled-5-19-512.png'), //controller.user.photo),
+          text1: 'Minhas\n',
+          text2: 'Plantinhas',
+          image: 'https://i.imgur.com/FfLAjmz.png'
+        ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
           padding: EdgeInsets.only(top: 60),
@@ -84,8 +88,9 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         width: 250,
-                        child: Text(txtReminderAlarm,
-                            style: AppTextStyles.textRetangle),
+                        child: Text(
+                          txtReminderAlarm, style: AppTextStyles.textRetangle
+                        ),
                       ),
                     ],
                   ),
@@ -98,8 +103,9 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                     margin: EdgeInsets.symmetric(horizontal: 32),
                     width: MediaQuery.of(context).size.width,
                     child: Text("Próximas regadas",
-                        style: AppTextStyles.bodySemiBold,
-                        textAlign: TextAlign.left),
+                      style: AppTextStyles.bodySemiBold,
+                      textAlign: TextAlign.left
+                    ),
                   ),
                 ],
               ),
@@ -123,16 +129,15 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                             color: Colors.white,
                             child: ListTile(
                               title: PlantsListViewWidget(
-                                  name: controller.plants[index].name,
-                                  imageUri: controller.plants[index].imageUri,
-                                  alarm: controller.plants[index].txtAlarm
+                                name: controller.plants[index].name,
+                                imageUri: controller.plants[index].imageUri,
+                                alarm: controller.plants[index].txtAlarm
                               ), 
                             )
                           ),
-                          secondaryActions: [
+                          actions: [
                             SlideAction(
-                              child: 
-                              Container(
+                              child: Container(
                                 width: 148,
                                 height: 100,
                                 margin: EdgeInsets.only(bottom: 10),
@@ -141,31 +146,77 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                                   color: AppColors.shapeColor
                                 ),
                                 child: IconButton(
-                                    color: Colors.red,
-                                    icon: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children:[
-                                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                                          children:[Icon(Icons.delete)]),
-                                        Row(mainAxisAlignment: MainAxisAlignment.center, children:[Text("Remover")])
-                                      ]
-                                    ),
-                                    onPressed: () async {
-                                      if (await confirm(
-                                        context,
-                                        title: Column(children: [
-                                          Icon(Icons.info_outline_rounded, size: 120, color: Colors.blue[300]),
-                                        ]),
-                                        content: Text('Você realmente quer remover a planta ${controller.plants[index].name} ?',style: AppTextStyles.text),
-                                        textOK: Text('Sim'),
-                                        textCancel: Text('Não'),
-                                      )) {
-                                          controller.delete(controller.plants[index].id);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)));
-                                      }
-                                      return null;
-                                    },
-                                  )
+                                  color: Colors.yellow[800],
+                                  icon: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:[Icon(Icons.edit)]
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center, 
+                                        children:[Text("Editar")]
+                                      )
+                                    ]
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
+                                      userId: userId,
+                                      userName: this.userName,
+                                      imageUri: controller.plants[index].imageUri,
+                                      name: controller.plants[index].name,
+                                      about: controller.plants[index].about,
+                                      waterTips: controller.plants[index].waterTips,
+                                      buttonText: 'Salvar',
+                                      plantId: controller.plants[index].id,
+                                    )));
+                                  },
+                                )
+                              )
+                            ),
+                          ],
+                          secondaryActions: [
+                            SlideAction(
+                              child: Container(
+                                width: 148,
+                                height: 100,
+                                margin: EdgeInsets.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.shapeColor
+                                ),
+                                child: IconButton(
+                                  color: Colors.red,
+                                  icon: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:[Icon(Icons.delete)]
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center, 
+                                        children:[Text("Remover")]
+                                      )
+                                    ]
+                                  ),
+                                  onPressed: () async {
+                                    if (await confirm(
+                                      context,
+                                      title: Column(children: [
+                                        Icon(Icons.info_outline_rounded, size: 120, color: Colors.blue[300]),
+                                      ]),
+                                      content: Text('Você realmente quer remover a planta ${controller.plants[index].name}?',style: AppTextStyles.text),
+                                      textOK: Text('Sim'),
+                                      textCancel: Text('Não'),
+                                    )) {
+                                      controller.delete(controller.plants[index].id);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)));
+                                    }
+                                    return null;
+                                  },
+                                )
                               )
                             ),
                           ],
@@ -180,7 +231,8 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text("Quantidade de plantas ${controller.plants.length}",
-                    style: AppTextStyles.textBold, textAlign: TextAlign.end),
+                  style: AppTextStyles.textBold, textAlign: TextAlign.end,
+                ),
               )
 
               // BottomBarWidget(),
@@ -200,11 +252,12 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
         body: Column(
           children: [
             Center(
-                child: CircularProgressIndicator(
-              value: circularIndicator.value,
-              valueColor:
-                  AlwaysStoppedAnimation<Color>(AppColors.greenDarkColor),
-            )),
+              child: CircularProgressIndicator(
+                value: circularIndicator.value,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AppColors.greenDarkColor
+                ),
+              )),
             Container(
               color: AppColors.backgroundColor,
               height: MediaQuery.of(context).size.height * 0.8,
@@ -224,7 +277,8 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                             Container(
                               padding: EdgeInsets.only(top: 40),
                               margin: EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 50),
+                                vertical: 20, horizontal: 50,
+                              ),
                               child: Icon(
                                 Icons.ballot_outlined,
                                 size: 80,
@@ -241,7 +295,8 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                       children: [
                         Container(
                           margin: EdgeInsets.symmetric(
-                              vertical: 30, horizontal: 50),
+                            vertical: 30, horizontal: 50,
+                          ),
                           child: Text(
                             "Você não possui nenhuma plantinha ainda",
                             style: AppTextStyles.text,
