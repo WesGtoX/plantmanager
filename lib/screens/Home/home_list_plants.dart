@@ -6,6 +6,7 @@ import 'package:plantmanager/screens/Home/widgets/app_bottom_bar_widget.dart';
 import 'package:plantmanager/screens/Home/widgets/client_plants_controller.dart';
 import 'package:plantmanager/screens/Home/widgets/plants_list_view_widget.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 class ListPlants extends StatefulWidget {
   final String userId;
@@ -149,9 +150,20 @@ class _ListPlantsState extends State<ListPlants> with TickerProviderStateMixin {
                                         Row(mainAxisAlignment: MainAxisAlignment.center, children:[Text("Remover")])
                                       ]
                                     ),
-                                    onPressed: () => {
-                                      controller.delete(controller.plants[index].id),
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)))
+                                    onPressed: () async {
+                                      if (await confirm(
+                                        context,
+                                        title: Column(children: [
+                                          Icon(Icons.info_outline_rounded, size: 120, color: Colors.blue[300]),
+                                        ]),
+                                        content: Text('Você realmente quer remover a planta ${controller.plants[index].name} ?',style: AppTextStyles.text),
+                                        textOK: Text('Sim'),
+                                        textCancel: Text('Não'),
+                                      )) {
+                                          controller.delete(controller.plants[index].id);
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)));
+                                      }
+                                      return null;
                                     },
                                   )
                               )
