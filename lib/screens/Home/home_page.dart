@@ -99,38 +99,44 @@ class _HomeState extends State<Home> {
                     children: controller.data.plants.map(
                       (e) => PlantsListWidget(
                         userId: this.userId, 
-                            userName: this.userName,
-                            name: e.name,
-                            imageUri: e.photo,
-                            about: e.about,
-                            waterTips: e.waterTips
-                            )
-                          ).toList(),
+                        userName: this.userName, 
+                        name: e.name, 
+                        imageUri: e.photo, 
+                        about: e.about, 
+                        waterTips: e.waterTips
+                      )
+                    ).toList(),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          tooltip: "Nova Planta",
-          backgroundColor: AppColors.greenDarkColor,
-          onPressed: () {
 
-            // Chamada para adicionar uma nova planta na coleção de um cliente
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
-                          userId: this.userId,
-                          userName: this.userName,
-                          name: 'Aningapara',
-                          imageUri: 'https://i.imgur.com/jOHlIRa.png',
-                          about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
-                          waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.',
-                          buttonText: 'Cadastrar planta',
-                        )));
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // Center create button on the AppBottomBarWidget
+        // floatingActionButton: FloatingActionButton(
+        //   child: const Icon(Icons.add),
+        //   tooltip: "Nova Planta",
+        //   backgroundColor: AppColors.greenDarkColor,
+        //   onPressed: () {
+        //     // Chamada para adicionar uma nova planta na coleção de um cliente
+        //     Navigator.push(
+        //       context, 
+        //       MaterialPageRoute(
+        //         builder: (context) => CreateOrEditWidget(
+        //           userId: this.userId, 
+        //           userName: this.userName, 
+        //           name: 'Aningapara', 
+        //           imageUri: 'https://i.imgur.com/jOHlIRa.png', 
+        //           about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.', 
+        //           waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.', 
+        //           buttonText: 'Cadastrar planta',
+        //         )
+        //       )
+        //     );
+        //   },
+        // ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AppBottomBarWidget(
           userId: this.userId,
           userName: this.userName,

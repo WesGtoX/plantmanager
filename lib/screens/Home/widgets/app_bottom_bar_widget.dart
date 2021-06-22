@@ -32,16 +32,43 @@ class AppBottomBarWidget extends StatelessWidget {
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(
           children: [
-            IconButton(tooltip: 'Home', icon: const Icon(Icons.menu), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userId: this.userId, userName: this.userName)));
-                }),
+            IconButton(
+              tooltip: 'Home', 
+              icon: const Icon(Icons.menu), 
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Home(
+                    userId: this.userId, 
+                    userName: this.userName
+                  ))
+                );
+              }
+            ),
             if (centerLocations.contains(fabLocation)) const Spacer(),
-            IconButton(tooltip: 'Sobre', icon: const Icon(Icons.people), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => About(userId: this.userId,userName: this.userName)));
-                }),
-            IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.list), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)));
-                }),
+            IconButton(
+              tooltip: 'Sobre', 
+              icon: const Icon(Icons.people), 
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => About(
+                    userId: this.userId,
+                    userName: this.userName
+                  ))
+                );
+              }
+            ),
+            IconButton(
+              tooltip: 'Minhas Plantinhas', 
+              icon: const Icon(Icons.list), 
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => ListPlants(
+                    userId: this.userId, 
+                    userName: this.userName,
+                  ))
+                );
+              }
+            ),
           ],
         ),
       ),
