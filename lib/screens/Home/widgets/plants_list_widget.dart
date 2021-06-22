@@ -27,16 +27,16 @@ class PlantsListWidget extends StatelessWidget {
           width: 148,
           height: 154,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: AppColors.shapeColor
+            borderRadius: BorderRadius.circular(20),
+            color: AppColors.shapeColor
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  margin: EdgeInsets.only(bottom: 12),
-                  child: Image.network(imageUri, height: 90)
+                margin: EdgeInsets.only(bottom: 12),
+                child: Image.network(imageUri, height: 90)
               ),
               Text(name, style: AppTextStyles.smallText, textAlign: TextAlign.left),
             ],
@@ -44,14 +44,14 @@ class PlantsListWidget extends StatelessWidget {
         ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
-                      userId: userId,
-                      userName: this.userName,
-                      imageUri: imageUri,
-                      name: name,
-                      about: about,
-                      waterTips: waterTips,
-                      buttonText: 'Cadastrar planta',
-                    )));
+          userId: userId,
+          userName: this.userName,
+          imageUri: imageUri,
+          name: name,
+          about: about,
+          waterTips: waterTips,
+          buttonText: 'Cadastrar planta',
+        )));
       },
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantmanager/core/core.dart';
-import 'package:plantmanager/screens/CreateUpdate/create_update_page.dart';
+// import 'package:plantmanager/screens/CreateUpdate/create_update_page.dart';
 import 'package:plantmanager/screens/Home/home_controller.dart';
 import 'package:plantmanager/screens/Home/home_state.dart';
 import 'package:plantmanager/screens/Home/widgets/app_bar_widget.dart';
@@ -25,25 +25,17 @@ class _HomeState extends State<Home> {
   late String userName;
   late String photo;
 
-  _HomeState(this.userName,this.userId);
+  _HomeState(this.userName, this.userId);
 
   var plantEnvirement = [];
 
   @override
   void initState() {
     super.initState();
-    // controller.getUser();
     controller.getData();
     controller.stateNotifier.addListener(() {
       setState(() {});
     });
-
-    // if (username == 'quemuel') {
-    //   name = 'Quemuel Nassor';
-    //   photo = 'https://avatars.githubusercontent.com/u/41460212';
-    // } else if (name.length != 0) {
-    //   photo = 'https://i.imgur.com/FfLAjmz.png';
-    // }
 
     plantEnvirement.add('Banheiro');
     plantEnvirement.add('Copa');
@@ -60,10 +52,8 @@ class _HomeState extends State<Home> {
       return Scaffold(
         appBar: AppBarWidget(
           text1: 'Olá,\n',
-          // text2: name == null ? controller.user.name : name,
           text2: this.userName,
-          // image: photo == null ? controller.user.photo : photo,
-          image: 'https://cdn2.iconfinder.com/data/icons/user-interface-line-38/24/Untitled-5-19-512.png', //'controller.user.photo',
+          image: 'https://i.imgur.com/FfLAjmz.png',
         ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
@@ -75,11 +65,11 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(top: 32, bottom: 24),
                 child: Text.rich(
                   TextSpan(
-                      text: 'Em qual ambiente,\n', style: AppTextStyles.textMedium,
-                      children: [
-                        TextSpan(text: 'você quer colocar sua planta?', style: AppTextStyles.text)
-                      ]
-                      ),
+                    text: 'Em qual ambiente,\n', style: AppTextStyles.textMedium,
+                    children: [
+                      TextSpan(text: 'você quer colocar sua planta?', style: AppTextStyles.text)
+                    ]
+                  ),
                 ),
               ),
               
@@ -89,7 +79,9 @@ class _HomeState extends State<Home> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return PlantsEnvironmentsWidget(label: plantEnvirement[index]);
+                    return PlantsEnvironmentsWidget(
+                      label: plantEnvirement[index]
+                    );
                   },
                   itemCount: plantEnvirement.length,
                 ),
@@ -105,40 +97,46 @@ class _HomeState extends State<Home> {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     children: controller.data.plants.map(
-                          (e) => PlantsListWidget(
-                            userId: this.userId,
-                            userName: this.userName,
-                            name: e.name,
-                            imageUri: e.photo,
-                            about: e.about,
-                            waterTips: e.waterTips
-                            )
-                          ).toList(),
+                      (e) => PlantsListWidget(
+                        userId: this.userId, 
+                        userName: this.userName, 
+                        name: e.name, 
+                        imageUri: e.photo, 
+                        about: e.about, 
+                        waterTips: e.waterTips
+                      )
+                    ).toList(),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          tooltip: "Nova Planta",
-          backgroundColor: AppColors.greenDarkColor,
-          onPressed: () {
 
-            // Chamada para adicionar uma nova planta na coleção de um cliente
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
-                          userId: this.userId,
-                          userName: this.userName,
-                          name: 'Aningapara',
-                          imageUri: 'https://i.imgur.com/jOHlIRa.png',
-                          about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
-                          waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.',
-                          buttonText: 'Cadastrar planta',
-                        )));
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // Center create button on the AppBottomBarWidget
+        // floatingActionButton: FloatingActionButton(
+        //   child: const Icon(Icons.add),
+        //   tooltip: "Nova Planta",
+        //   backgroundColor: AppColors.greenDarkColor,
+        //   onPressed: () {
+        //     // Chamada para adicionar uma nova planta na coleção de um cliente
+        //     Navigator.push(
+        //       context, 
+        //       MaterialPageRoute(
+        //         builder: (context) => CreateOrEditWidget(
+        //           userId: this.userId, 
+        //           userName: this.userName, 
+        //           name: 'Aningapara', 
+        //           imageUri: 'https://i.imgur.com/jOHlIRa.png', 
+        //           about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.', 
+        //           waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.', 
+        //           buttonText: 'Cadastrar planta',
+        //         )
+        //       )
+        //     );
+        //   },
+        // ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AppBottomBarWidget(
           userId: this.userId,
           userName: this.userName,
@@ -149,9 +147,9 @@ class _HomeState extends State<Home> {
     } else {
       return Scaffold(
         body: Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.greenDarkColor),
-            )
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.greenDarkColor),
+          )
         )
       );
     }

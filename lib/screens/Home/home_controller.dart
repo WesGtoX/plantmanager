@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:plantmanager/screens/Home/home_repository.dart';
 import 'package:plantmanager/screens/Home/home_state.dart';
@@ -23,16 +22,17 @@ class HomeController {
   // }
 
   void getData() async {
-    //Initialize datamodel
+    // Initialize datamodel
     var db = FirebaseFirestore.instance;
 
-    //Load data from database
+    // Load data from database
     var snapshots = await db.collection('plants').get();
 
     data = new DataModel(
-        plants: snapshots.docs
-            .map((e) => PlantModel.fromDB(e.data(), e.id))
-            .toList());
+      plants: snapshots.docs.map(
+        (e) => PlantModel.fromDB(e.data(), e.id)
+      ).toList()
+    );
 
     state = HomeState.loading;
     state = HomeState.sucess;
