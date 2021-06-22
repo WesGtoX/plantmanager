@@ -9,30 +9,32 @@ import 'package:plantmanager/screens/Home/widgets/plants_environments_widget.dar
 import 'package:plantmanager/screens/Home/widgets/plants_list_widget.dart';
 
 class Home extends StatefulWidget {
+  final String userId;
   final String userName;
-  
-  Home({ Key? key, required this.userName }) : super(key: key);
+
+  Home({ Key? key, required this.userName, required this.userId }) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState(this.userName);
+  _HomeState createState() => _HomeState(this.userName, this.userId);
 }
 
 class _HomeState extends State<Home> {
-  
+
   final controller = HomeController();
+  late String userId;
   late String userName;
   late String photo;
-  
-  _HomeState(this.userName);
-  
+
+  _HomeState(this.userName,this.userId);
+
   var plantEnvirement = [];
-  
+
   @override
   void initState() {
     super.initState();
-    controller.getUser();
+    // controller.getUser();
     controller.getData();
-    controller.stateNotifier.addListener(() { 
+    controller.stateNotifier.addListener(() {
       setState(() {});
     });
 
@@ -42,7 +44,7 @@ class _HomeState extends State<Home> {
     // } else if (name.length != 0) {
     //   photo = 'https://i.imgur.com/FfLAjmz.png';
     // }
-    
+
     plantEnvirement.add('Banheiro');
     plantEnvirement.add('Copa');
     plantEnvirement.add('Cozinha');
@@ -57,11 +59,11 @@ class _HomeState extends State<Home> {
     if (controller.state == HomeState.sucess) {
       return Scaffold(
         appBar: AppBarWidget(
-          text1: 'Olá,\n', 
+          text1: 'Olá,\n',
           // text2: name == null ? controller.user.name : name,
-          text2: 'controller.user.name',
+          text2: this.userName,
           // image: photo == null ? controller.user.photo : photo,
-          image: 'controller.user.photo',
+          image: 'https://cdn2.iconfinder.com/data/icons/user-interface-line-38/24/Untitled-5-19-512.png', //'controller.user.photo',
         ),
         backgroundColor: AppColors.backgroundColor,
         body: Padding(
@@ -73,11 +75,11 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(top: 32, bottom: 24),
                 child: Text.rich(
                   TextSpan(
-                    text: 'Em qual ambiente,\n', style: AppTextStyles.textMedium,
-                    children: [
-                      TextSpan(text: 'você quer colocar sua planta?', style: AppTextStyles.text)
-                    ]
-                  ),
+                      text: 'Em qual ambiente,\n', style: AppTextStyles.textMedium,
+                      children: [
+                        TextSpan(text: 'você quer colocar sua planta?', style: AppTextStyles.text)
+                      ]
+                      ),
                 ),
               ),
               
@@ -103,13 +105,15 @@ class _HomeState extends State<Home> {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     children: controller.data.plants.map(
-                      (e) => PlantsListWidget(
-                        name: e.name, 
-                        imageUri: e.photo,
-                        about: e.about,
-                        waterTips: e.waterTips
-                      )
-                    ).toList(),
+                          (e) => PlantsListWidget(
+                            userId: this.userId,
+                            userName: this.userName,
+                            name: e.name,
+                            imageUri: e.photo,
+                            about: e.about,
+                            waterTips: e.waterTips
+                            )
+                          ).toList(),
                   ),
                 ),
               ),
@@ -117,21 +121,27 @@ class _HomeState extends State<Home> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add), 
+          child: const Icon(Icons.add),
           tooltip: "Nova Planta",
           backgroundColor: AppColors.greenDarkColor,
           onPressed: () {
+
+            // Chamada para adicionar uma nova planta na coleção de um cliente
             Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrEditWidget(
-                name: 'Aningapara',
-                imageUri: 'https://i.imgur.com/jOHlIRa.png',
-                about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
-                waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.',
-                buttonText: 'Cadastrar planta',
-            )));
-          }, 
+                          userId: this.userId,
+                          userName: this.userName,
+                          name: 'Aningapara',
+                          imageUri: 'https://i.imgur.com/jOHlIRa.png',
+                          about: 'É uma espécie tropical que tem crescimento rápido e fácil manuseio.',
+                          waterTips: 'Mantenha a terra sempre húmida sem encharcar. Regue 2 vezes na semana.',
+                          buttonText: 'Cadastrar planta',
+                        )));
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AppBottomBarWidget(
+          userId: this.userId,
+          userName: this.userName,
           fabLocation: FloatingActionButtonLocation.centerDocked,
           shape: const CircularNotchedRectangle(),
         ),
@@ -139,9 +149,9 @@ class _HomeState extends State<Home> {
     } else {
       return Scaffold(
         body: Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.greenDarkColor),
-          )
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.greenDarkColor),
+            )
         )
       );
     }

@@ -5,8 +5,12 @@ import 'package:plantmanager/screens/Home/home_page.dart';
 import 'package:plantmanager/screens/about/about_screen.dart';
 
 class AppBottomBarWidget extends StatelessWidget {
-  
+  final String userId;
+  final String userName;
+
   const AppBottomBarWidget({
+    required this.userId,
+    required this.userName,
     this.fabLocation = FloatingActionButtonLocation.endDocked,
     this.shape = const CircularNotchedRectangle(),
   });
@@ -15,7 +19,7 @@ class AppBottomBarWidget extends StatelessWidget {
   final NotchedShape shape;
 
   static final List<FloatingActionButtonLocation> centerLocations = <FloatingActionButtonLocation>[
-    FloatingActionButtonLocation.centerDocked, 
+    FloatingActionButtonLocation.centerDocked,
     FloatingActionButtonLocation.centerFloat,
   ];
 
@@ -29,15 +33,15 @@ class AppBottomBarWidget extends StatelessWidget {
         child: Row(
           children: [
             IconButton(tooltip: 'Home', icon: const Icon(Icons.menu), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userName: '')));
-            }),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(userId: this.userId, userName: this.userName)));
+                }),
             if (centerLocations.contains(fabLocation)) const Spacer(),
-            IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.people), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
-            }),
+            IconButton(tooltip: 'Sobre', icon: const Icon(Icons.people), onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => About(userId: this.userId,userName: this.userName)));
+                }),
             IconButton(tooltip: 'Minhas Plantinhas', icon: const Icon(Icons.list), onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants()));
-            }),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPlants(userId: this.userId, userName: this.userName)));
+                }),
           ],
         ),
       ),

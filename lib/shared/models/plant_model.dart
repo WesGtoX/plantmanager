@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class PlantModel {
-  final int id;
+  final String id;
   final String name;
   final String about;
   final String waterTips;
@@ -9,24 +9,39 @@ class PlantModel {
   final List environments;
   final String frequency;
 
-  PlantModel({
-    required this.id,
-    required this.name,
-    required this.about,
-    required this.waterTips,
-    required this.photo,
-    required this.environments,
-    required this.frequency
-  });
+  PlantModel(
+      {required this.id,
+      required this.name,
+      required this.about,
+      required this.waterTips,
+      required this.photo,
+      required this.environments,
+      required this.frequency});
+
+  factory PlantModel.fromDB(Map<dynamic, dynamic> map, String id) {
+    return PlantModel(
+      id: id,
+      name: map['name'],
+      about: map['about'],
+      waterTips: map['water_tips'],
+      photo: map['photo'],
+      environments: map['environments']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .split(",")
+          ,
+      frequency: map['frequency'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'about': about,
       'waterTips': waterTips,
       'photo': photo,
-      'environments': environments,
+      'environments': environments.toString(),
       'frequency': frequency
     };
   }
@@ -45,5 +60,6 @@ class PlantModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PlantModel.fromJson(String source) => PlantModel.fromMap(json.decode(source));
+  factory PlantModel.fromJson(String source) =>
+      PlantModel.fromMap(json.decode(source));
 }
