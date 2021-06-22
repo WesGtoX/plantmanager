@@ -83,14 +83,14 @@ class _LoginState extends State<Login> {
 
     FirebaseAuth.instance.signInWithEmailAndPassword(
       email: login, password: passwd,
-    ).then((result) {
+    ).then((result) async {
       isLoading = false;
 
       var userUid = result.user!.uid;
       var userName = '';
 
       user = FirebaseFirestore.instance.collection('users');
-      user.doc(userUid).get().then((value) {
+      await user.doc(userUid).get().then((value) {
         userName = value['name'].toString();
       });
 
