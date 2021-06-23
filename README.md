@@ -31,6 +31,22 @@ This project was developed with the following technologies:
 - [Flutter](https://flutter.dev/)
 - [Dart](https://dart.dev/)
 
+
+## APP screens
+
+<p align="center">
+  <img src="assets/images/screenshots/plantmanager_01.jpg" alt="PlantManager" title="PlantManager" width="250px">
+  <img src="assets/images/screenshots/plantmanager_02.jpg" alt="PlantManager" title="PlantManager" width="250px">
+  <img src="assets/images/screenshots/plantmanager_03.jpg" alt="PlantManager" title="PlantManager" width="250px">
+</p>
+
+
+## APP video
+
+- [Video Part 01](https://www.youtube.com/watch?v=CLLI5eF1-hs)
+- [Video Part 02](https://www.youtube.com/watch?v=SXbwZ9s0uGI)
+
+
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
